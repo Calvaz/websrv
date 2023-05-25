@@ -27,14 +27,19 @@ listen_and_serve :: proc(server: ^Server) -> Maybe(net.Network_Error) {
         sc: Status_Code
         request_builder, err := process_request(server.routes, read_buf[:]);
         if err.(Http_Parsing_Error) != nil {
-             response, sc = handle_error_response(err.?)
+            if err == Http_Parsing_Error.Bad_Http_Page {
+                response, sc = error_view(Status_Code.Not_Found)
+
+            } else {
+                sc = handle_error_response(err.?)
+            }
 
         } else {
             response, sc = request_builder.Route.Action(request_builder.Route.Endpoint)
         }
 
         if _, err := net.send_tcp(client, response[:]); err != nil {
-            fmt.println("received error on send")
+            fmt.println(err)
             return err
         }
     }
@@ -137,8 +142,7 @@ parse_http_version :: proc(request: ^Request_Builder, token: string) -> Maybe(Ht
     return nil
 }
 
-handle_error_response :: proc(err: Http_Parsing_Error) -> ([]u8, Status_Code) {
-    content: []u8
+handle_error_response :: proc(err: Http_Parsing_Error) -> Status_Code {
     status_code: Status_Code
     if err == .Bad_Http_Page {
         status_code = .Not_Found
@@ -146,6 +150,6 @@ handle_error_response :: proc(err: Http_Parsing_Error) -> ([]u8, Status_Code) {
         status_code = .Internal_Server_Error
     }
 
-    return content, status_code
+    return status_code
 }
 
