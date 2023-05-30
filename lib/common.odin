@@ -3,27 +3,28 @@ package http
 import "core:net"
 
 Request_Builder :: struct {
-    Version: Version,
-    Method: Verb,
-    Headers: map[Request_Header]string,
-    Route: Route,
+    version: Version,
+    method: Verb,
+    headers: map[Request_Header]string,
+    route: Route,
 }
 
-ResponseBuilder :: struct {
-    Version: Version,
-    Method: Verb,
-    Status_Code: Status_Code,
-    Headers: map[Response_Header]string,
-    Content_Length: u64,
-    Content: []u8,
+Response_Builder :: struct {
+    version: Version,
+    method: Verb,
+    status_code: Status_Code,
+    sc_message: string,
+    extension: string,
+    headers: map[Response_Header]string,
+    content: []u8,
 }
 
-Version :: enum {
+Version :: enum u8 {
     HTTP_1_1 = 11,   
     HTTP_2_0 = 20, // not implemented
 }
 
-Verb :: enum {
+Verb :: enum u8 {
     GET,   
     HEAD,   
     POST,   
@@ -69,14 +70,25 @@ Request_Header :: enum {
     
 }
 
-Response_Header :: enum {
+Response_Header :: enum u8 {
     Content_Length,
 }
 
-Http_Parsing_Error :: enum {
+Http_Parsing_Error :: enum u8 {
     Bad_Http_Version,
     Bad_Http_Verb,
     Bad_Http_Page,
     Internal_Error,
+}
+
+File_Extensions :: enum u8 {
+    Css,
+    Js,
+    Html,
+    Ico,
+    Png,
+    Jpg,
+    Gif,
+    Bmp,
 }
 

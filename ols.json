@@ -1,7 +1,7 @@
 {
     "collections": [
         {"name": "core", "path": "D:/SoftwareDev/Odin/core" },
-	{"name": "shared", "path": "D:/SoftwareDev/websrv/src" }
+	    {"name": "shared", "path": "D:/SoftwareDev/websrv/lib" }
     ],
     "enable_hover": true,
     "enable_document_symbols": true,
