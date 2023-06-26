@@ -1,4 +1,4 @@
-This is a simple and partial implementation for a web server.
+This is a simple and partial implementation for a web server/framework.
 
 This is how to initialize and start the server:
 ```
@@ -17,4 +17,4 @@ http.add_route(&server, http.Verb.GET, "/something.css", resource)
 ```
 
 **What's missing**
-- Missing implementation to handle concurrent requests
+A lot of things, but mainly the implementation to handle concurrent requests
